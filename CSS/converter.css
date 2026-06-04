@@ -76,8 +76,8 @@ body {
    4. CONTROL DE ENTRADAS BLINDADO (INPUT Y SELECTS)
    ========================================================================== */
 
-/* Campo de Texto/Número (#input-temp) */
-#converter input[type="text"] {
+/* CORREGIDO: Cambiado de [type="text"] a [type="number"] */
+#converter input[type="number"] {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none; /* Elimina cajas blancas de fábrica */
@@ -96,11 +96,23 @@ body {
   transition: all 0.2s ease-in-out;
 }
 
-#converter input[type="text"]:hover {
+/* NUEVO: Elimina las flechas arriba/abajo nativas de los inputs numéricos (Chrome, Safari, Edge, Firefox) */
+#converter input[type="number"]::-webkit-outer-spin-button,
+#converter input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+#converter input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* CORREGIDO: Cambiado de [type="text"] a [type="number"] */
+#converter input[type="number"]:hover {
   border-color: var(--border-hover) !important;
 }
 
-#converter input[type="text"]:focus {
+/* CORREGIDO: Cambiado de [type="text"] a [type="number"] */
+#converter input[type="number"]:focus {
   border-color: var(--accent-cyan) !important;
   background-color: #1a243a !important;
   box-shadow: 0 0 15px rgba(0, 240, 255, 0.15);
@@ -172,5 +184,6 @@ body {
   /* Efecto cromático metálico sobre el texto */
   background: var(--result-gradient);
   background-clip: text;
+  -webkit-background-clip: text; /* Añadido soporte para navegadores Webkit antiguos */
   -webkit-text-fill-color: transparent;
 }
