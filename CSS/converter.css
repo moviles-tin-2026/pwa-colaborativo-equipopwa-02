@@ -1,51 +1,36 @@
 /* ==========================================================================
-   1. CONFIGURACIÓN PREMIUM Y EFECTOS DE LUZ
+   1. VARIABLES DE DISEÑO PREMIUM
    ========================================================================== */
 :root {
-  /* Fondo atmosférico profundo */
-  --bg-main: #030712;
+  --bg-main: #070a13;
+  --surface-card: #0f1626;
+  --surface-input: #172033; /* Fondo oscuro sólido anti-errores del navegador */
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-hover: rgba(0, 240, 255, 0.3);
   
-  /* Superficies con textura de vidrio de alta gama */
-  --card-bg: rgba(17, 24, 39, 0.65);
-  --result-bg: rgba(255, 255, 255, 0.02);
-  
-  /* Líneas de luz de precisión (Bordes) */
-  --border-subtle: rgba(255, 255, 255, 0.05);
-  --border-light: rgba(255, 255, 255, 0.12);
-  
-  /* Paleta Cromática Elegante */
   --text-main: #f8fafc;
-  --text-muted: #94a3b8;
+  --text-muted: #64748b;
   --accent-cyan: #00f0ff;
-  --accent-purple: #8b5cf6;
   
-  /* Gradiente Cromático Dinámico para el Resultado */
-  --result-gradient: linear-gradient(135deg, #ffffff 40%, #a5f3fc 70%, #c084fc 100%);
-  --card-top-glow: linear-gradient(90deg, rgba(0, 240, 255, 0.15), rgba(139, 92, 246, 0.15));
-
-  /* Tipografía y Animación */
+  /* Gradiente premium para el resultado metálico/cristal */
+  --result-gradient: linear-gradient(135deg, #ffffff 30%, #a5f3fc 70%, #c084fc 100%);
   --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  --transition-cubic: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Reset Profesional */
+/* Reset Global de Precisión */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-/* ==========================================================================
-   2. LAYOUT Y FONDO ATMOSFÉRICO (MÚLTIPLES CAPAS)
-   ========================================================================== */
 body {
   font-family: var(--font-sans);
   background-color: var(--bg-main);
-  /* Fondo con "luces de estudio" profundas para dar volumen tridimensional */
+  /* Luces ambientales tenues de fondo */
   background-image: 
-    radial-gradient(circle at 20% 20%, rgba(139, 92, 246, 0.07) 0%, transparent 40%),
-    radial-gradient(circle at 80% 80%, rgba(0, 240, 255, 0.05) 0%, transparent 40%),
-    radial-gradient(circle at 50% 50%, rgba(15, 23, 42, 1) 0%, rgba(3, 7, 18, 1) 100%);
+    radial-gradient(circle at 15% 15%, rgba(139, 92, 246, 0.05) 0%, transparent 40%),
+    radial-gradient(circle at 85% 85%, rgba(0, 240, 255, 0.04) 0%, transparent 40%);
   color: var(--text-main);
   min-height: 100vh;
   display: grid;
@@ -54,51 +39,26 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Tarjeta Estilo Dispositivo Hardware Premium */
-body > div, main, form {
+/* ==========================================================================
+   2. EL CONTENEDOR PRINCIPAL (TU FORMULARIO)
+   ========================================================================== */
+#converter {
   width: 100%;
-  max-width: 400px;
+  max-width: 380px;
   display: flex;
   flex-direction: column;
-  gap: 24px;
-  padding: 40px 32px;
-  background-color: var(--card-bg);
+  gap: 22px; /* Separación base entre bloques */
+  padding: 36px 28px;
+  background-color: var(--surface-card);
   border: 1px solid var(--border-subtle);
-  border-radius: 24px;
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  position: relative;
-  overflow: hidden;
-  
-  /* Sombras físicas complejas + Reflejo de luz interna (Glow superior) */
-  box-shadow: 
-    inset 0 1px 1px rgba(255, 255, 255, 0.1),
-    0 1px 2px rgba(0, 0, 0, 0.4),
-    0 24px 48px -12px rgba(0, 0, 0, 0.6);
-}
-
-/* Línea de luz decorativa en el borde superior de la tarjeta (Efecto Reflejo) */
-body > div::before, main::before, form::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: var(--card-top-glow);
+  border-radius: 20px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
 }
 
 /* ==========================================================================
-   3. CONTROLES CON EFECTO DE PROFUNDIDAD
+   3. ESTILIZACIÓN DE ETIQUETAS (LABELS)
    ========================================================================== */
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  width: 100%;
-}
-
-label {
+#converter label {
   font-size: 0.75rem;
   font-weight: 600;
   text-transform: uppercase;
@@ -106,134 +66,111 @@ label {
   color: var(--text-muted);
   text-align: left;
   padding-left: 2px;
+  
+  /* TRUCO VISUAL: Acerca la etiqueta al input que tiene abajo, 
+     neutralizando parte del 'gap' general del formulario */
+  margin-bottom: -14px; 
 }
 
-/* Inputs con hendidura visual (Incrustados en el panel) */
-input[type="number"], input[type="text"] {
+/* ==========================================================================
+   4. CONTROL DE ENTRADAS BLINDADO (INPUT Y SELECTS)
+   ========================================================================== */
+
+/* Campo de Texto/Número (#input-temp) */
+#converter input[type="text"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none; /* Elimina cajas blancas de fábrica */
+  
   width: 100%;
-  padding: 14px 18px;
+  padding: 14px;
   font-size: 1.3rem;
   font-weight: 600;
   text-align: center;
-  color: #ffffff;
-  background-color: rgba(0, 0, 0, 0.4);
-  border: 1px solid var(--border-subtle);
-  border-radius: 14px;
+  
+  color: #ffffff !important;
+  background-color: var(--surface-input) !important;
+  border: 1px solid var(--border-subtle) !important;
+  border-radius: 12px;
   outline: none;
-  transition: var(--transition-cubic);
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5); /* Efecto hundido */
+  transition: all 0.2s ease-in-out;
 }
 
-input[type="number"]:hover, input[type="text"]:hover {
-  border-color: var(--border-light);
+#converter input[type="text"]:hover {
+  border-color: var(--border-hover) !important;
 }
 
-input[type="number"]:focus, input[type="text"]:focus {
-  border-color: rgba(0, 240, 255, 0.4);
-  background-color: rgba(0, 0, 0, 0.6);
-  box-shadow: 
-    inset 0 2px 4px rgba(0, 0, 0, 0.5),
-    0 0 20px rgba(0, 240, 255, 0.08);
+#converter input[type="text"]:focus {
+  border-color: var(--accent-cyan) !important;
+  background-color: #1a243a !important;
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.15);
 }
 
-/* Selector Desplegable Premium */
-select {
-  appearance: none;
+/* Selectores Desplegables (#input-unit y #output-unit) */
+#converter select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none; /* Elimina las flechas nativas feas de Windows/Chrome */
+  
   width: 100%;
-  padding: 14px 20px;
-  font-size: 1rem;
+  padding: 14px 40px 14px 14px; /* Espacio extra a la derecha para el ícono */
+  font-size: 0.95rem;
   font-weight: 500;
-  color: var(--text-main);
-  background-color: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--border-subtle);
-  border-radius: 14px;
+  text-align: center;
+  text-align-last: center; /* Centra el texto de la opción seleccionada */
+  
+  color: var(--text-main) !important;
+  background-color: var(--surface-input) !important;
+  border: 1px solid var(--border-subtle) !important;
+  border-radius: 12px;
   cursor: pointer;
   outline: none;
-  text-align: center;
-  transition: var(--transition-cubic);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease-in-out;
   
-  /* Flecha minimalista */
-  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2394a3b8'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 16px center;
-  background-size: 16px;
+  /* Añade un Chevron (flecha) minimalista y moderno mediante SVG en código */
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2364748b'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 16px center !important;
+  background-size: 14px !important;
 }
 
-select:hover {
-  border-color: var(--border-light);
-  background-color: rgba(255, 255, 255, 0.06);
+#converter select:hover {
+  border-color: var(--border-hover) !important;
 }
 
-select:focus {
-  border-color: rgba(139, 92, 246, 0.4);
-  box-shadow: 0 0 20px rgba(139, 92, 246, 0.08);
+#converter select:focus {
+  border-color: var(--accent-cyan) !important;
 }
 
-select option {
-  background-color: #0f172a;
+/* Fondo oscuro para las opciones cuando el menú se despliegue */
+#converter select option {
+  background-color: var(--surface-card);
   color: var(--text-main);
 }
 
 /* ==========================================================================
-   4. CONTENEDOR DE RESULTADO estilo "BENTO BOX" (EL HÉROE)
+   5. EL ELEMENTO DE RESULTADO FINAL (OUTPUT)
    ========================================================================== */
-
-/* Bloque aislado con relieve, micro-gradiente de fondo y luz ambiental */
-.result-container, #result-wrapper {
-  margin-top: 8px;
+#output-temp {
+  margin-top: 10px;
   width: 100%;
-  padding: 28px 20px;
-  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0) 100%);
-  background-color: var(--result-bg);
-  border: 1px solid var(--border-light);
-  border-radius: 18px;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
+  padding: 24px 16px;
   
-  /* Destello posterior hiper-sutil que empuja el resultado hacia el frente */
-  box-shadow: 
-    inset 0 1px 0 rgba(255, 255, 255, 0.05),
-    0 10px 30px -10px rgba(0, 240, 255, 0.1);
-}
-
-h2 {
-  font-size: 0.75rem;
+  /* Se le da forma de contenedor bento-box elegante */
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  display: block; /* Obliga al elemento output a actuar como bloque contenedor */
+  text-align: center;
+  
+  /* Estilización de la tipografía del resultado héroe */
+  font-size: 3.2rem;
   font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: var(--accent-cyan); /* Color de acento vivo pero controlado */
-  text-shadow: 0 0 12px rgba(0, 240, 255, 0.3);
-}
-
-/* El número: tipografía masiva, compacta y gradiente sofisticado de tres tonos */
-#result, #result-value {
-  font-size: 3.6rem;
-  font-weight: 800;
-  line-height: 1;
-  letter-spacing: -0.04em;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  
+  /* Efecto cromático metálico sobre el texto */
   background: var(--result-gradient);
-  -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
-  display: inline-block;
-  margin: 6px 0;
-}
-
-p {
-  font-size: 0.85rem;
-  font-weight: 500;
-  color: var(--text-muted);
-}
-
-/* Reset e integración limpia de inputs */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-input[type=number] {
-  -moz-appearance: textfield;
 }
