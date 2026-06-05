@@ -1,8 +1,11 @@
 :root {
   --bg-color: #080b10;
+  --card-color: rgba(255, 255, 255, 0.06);
+  --border-color: rgba(255, 255, 255, 0.12);
   --text-main: #f3f6f9;
-  --text-muted: #78899a;
+  --text-muted: #9aa8b6;
   --accent-secondary: #00f0ff;
+  --accent-purple: #7000ff;
   --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 }
 
@@ -15,73 +18,85 @@
 body {
   font-family: var(--font-family);
   background-color: var(--bg-color);
-  /* Fondo con degradado galáctico */
   background-image: 
-    radial-gradient(at 0% 0%, rgba(112, 0, 255, 0.12) 0px, transparent 50%),
-    radial-gradient(at 100% 100%, rgba(0, 240, 255, 0.08) 0px, transparent 50%);
+    radial-gradient(at 0% 0%, rgba(112, 0, 255, 0.18) 0px, transparent 45%),
+    radial-gradient(at 100% 100%, rgba(0, 240, 255, 0.12) 0px, transparent 45%);
   color: var(--text-main);
+  min-height: 100vh;
+  padding: 30px 18px;
+  -webkit-font-smoothing: antialiased;
+
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
-  padding: 20px;
-  -webkit-font-smoothing: antialiased;
+  gap: 25px;
 }
 
-/* Contenedor invisible para centrar y ordenar los elementos en vertical */
-body > div, main, form {
+form {
+  width: 100%;
+  max-width: 390px;
+  padding: 28px;
+  background: var(--card-color);
+  border: 1px solid var(--border-color);
+  border-radius: 24px;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(12px);
+
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 18px;
-  width: 100%;
-  max-width: 360px;
+  gap: 15px;
   text-align: center;
 }
 
-/* Textos de etiquetas (temperature, from, to) */
-label, body {
-  font-size: 1.1rem;
-  font-weight: 400;
-  color: var(--text-main);
+label {
+  width: 100%;
+  max-width: 280px;
+  text-align: left;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-muted);
 }
 
-/* El campo de texto/número */
-input[type="number"], input[type="text"] {
-  width: 140px;
-  padding: 10px 14px;
-  font-size: 1.3rem;
-  font-weight: 600;
+input[type="number"],
+input[type="text"] {
+  width: 100%;
+  max-width: 280px;
+  padding: 13px 15px;
+  font-size: 1.25rem;
+  font-weight: 700;
   text-align: center;
   color: #ffffff;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
   outline: none;
   transition: all 0.3s;
 }
 
-input[type="number"]:focus {
+input[type="number"]:focus,
+input[type="text"]:focus {
   border-color: var(--accent-secondary);
-  box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
+  box-shadow: 0 0 18px rgba(0, 240, 255, 0.25);
 }
 
-/* Listas desplegables (Selects) */
 select {
   appearance: none;
   width: 100%;
   max-width: 280px;
-  padding: 12px 20px;
+  padding: 13px 20px;
   font-size: 1.05rem;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--text-main);
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid var(--border-color);
   border-radius: 14px;
   cursor: pointer;
   outline: none;
   text-align: center;
   transition: all 0.2s;
+
   background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='%2378899a' d='M8 11.5l-5-5 1.4-1.4L8 8.7l3.6-3.6L13 6.5l-5 5z'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 18px center;
@@ -89,16 +104,104 @@ select {
 }
 
 select:focus {
-  border-color: rgba(0, 240, 255, 0.3);
-  background-color: rgba(0, 0, 0, 0.4);
+  border-color: var(--accent-secondary);
+  box-shadow: 0 0 18px rgba(0, 240, 255, 0.18);
 }
 
-/* El resultado grande abajo */
-#result, #result-value, h2, p {
-  font-size: 2.2rem;
-  font-weight: 700;
-  margin-top: 10px;
-  letter-spacing: -0.5px;
+output,
+#output-temp {
+  width: 100%;
+  max-width: 280px;
+  margin-top: 8px;
+  padding: 18px;
+  display: block;
+  font-size: 2rem;
+  font-weight: 800;
   color: #ffffff;
-  text-shadow: 0 2px 10px rgba(0, 240, 255, 0.2);
+  background: linear-gradient(135deg, rgba(0, 240, 255, 0.18), rgba(112, 0, 255, 0.25));
+  border: 1px solid rgba(0, 240, 255, 0.25);
+  border-radius: 18px;
+  text-shadow: 0 2px 12px rgba(0, 240, 255, 0.35);
+}
+
+section {
+  width: 100%;
+  max-width: 760px;
+  padding: 22px;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 24px;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.32);
+  backdrop-filter: blur(12px);
+}
+
+section h2 {
+  margin-bottom: 18px;
+  text-align: center;
+  font-size: 1.8rem;
+  color: #ffffff;
+  text-shadow: 0 0 18px rgba(0, 240, 255, 0.6);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  overflow: hidden;
+  border-radius: 16px;
+  font-size: 0.95rem;
+  background-color: #111827;
+}
+
+th {
+  padding: 13px 10px;
+  color: #ffffff;
+  background: linear-gradient(135deg, #00a6b8, #6f4dff);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+td {
+  padding: 12px 10px;
+  color: #ffffff;
+  background-color: #111827;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  text-align: center;
+}
+
+tr:nth-child(even) td {
+  background-color: #172033;
+}
+
+tr:hover td {
+  background-color: #243047;
+}
+
+p {
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+@media (max-width: 600px) {
+  body {
+    justify-content: flex-start;
+    padding: 20px 12px;
+  }
+
+  form,
+  section {
+    max-width: 100%;
+  }
+
+  table {
+    font-size: 0.8rem;
+  }
+
+  th,
+  td {
+    padding: 9px 6px;
+  }
+
+  output,
+  #output-temp {
+    font-size: 1.7rem;
+  }
 }
