@@ -163,7 +163,7 @@ body.calor {
 body.mucho-calor {
   --temp-color1: rgba(255, 75, 43, 0.3);
   --temp-color2: rgba(231, 76, 60, 0.2);
-}
+
   font-family: var(--font-sans);
   background-color: var(--bg-main);
   /* Luces ambientales tenues de fondo */
