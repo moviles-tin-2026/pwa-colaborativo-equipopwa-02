@@ -45,7 +45,7 @@ body::before {
     radial-gradient(circle at 30% 40%, var(--temp-color1) 0%, transparent 60%),
     radial-gradient(circle at 70% 60%, var(--temp-color2) 0%, transparent 60%);
   background-size: 200% 200%;
-  z-index: -1; /* Se posiciona detrás de tu contenido */
+  z-index: -2; /* 👈 ANTES ESTABA EN -1, CAMBÍALO A -2 */
   transition: all 1.2s ease-in-out; /* Suaviza el cambio de colores */
   animation: auroraMovement 20s ease infinite; /* Movimiento constante de nebulosa */
 }
@@ -59,6 +59,8 @@ body > div, main, form {
   width: 100%;
   max-width: 360px;
   text-align: center;
+
+  position: relative; /*(Es obligatoria para que el z-index funcione) */
   z-index: 1; /* NUEVO: Asegura que la app se mantenga al frente */
 }
 
@@ -161,7 +163,7 @@ body.calor {
 body.mucho-calor {
   --temp-color1: rgba(255, 75, 43, 0.3);
   --temp-color2: rgba(231, 76, 60, 0.2);
-}
+
   font-family: var(--font-sans);
   background-color: var(--bg-main);
   /* Luces ambientales tenues de fondo */
