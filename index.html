@@ -11,60 +11,36 @@
   </head>
   <body>
     <form id="converter">
-      <label for="input-temp">Temperatura</label>
-      <input type="text" id="input-temp" name="input-temp" value="20" />
-      <label for="input-unit">De</label>
-      <select id="input-unit" name="input-unit">
-        <option value="c" selected>Celsius</option>
-        <option value="f">Fahrenheit</option>
-        <option value="k">Kelvin</option>
-      </select>
-      <label for="output-unit">A</label>
-      <select id="output-unit" name="output-unit">
-        <option value="c">Celsius</option>
-        <option value="f" selected>Fahrenheit</option>
-        <option value="k">Kelvin</option>
-      </select>
-      <output name="output-temp" id="output-temp" for="input-temp input-unit output-unit">68 F</output>
+      <fieldset style="border: none; padding: 0; margin: 0;"> <legend style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0;">Conversor de Temperatura</legend>
+        
+        <label for="input-temp">Temperatura</label>
+        <input 
+          type="number" 
+          id="input-temp" 
+          name="input-temp" 
+          value="20" 
+          step="any" 
+          inputmode="decimal" 
+          required 
+        />
+        
+        <label for="input-unit">De</label>
+        <select id="input-unit" name="input-unit">
+          <option value="c" selected>Celsius</option>
+          <option value="f">Fahrenheit</option>
+          <option value="k">Kelvin</option>
+        </select>
+        
+        <label for="output-unit">A</label>
+        <select id="output-unit" name="output-unit">
+          <option value="c">Celsius</option>
+          <option value="f" selected>Fahrenheit</option>
+          <option value="k">Kelvin</option>
+        </select>
+        
+        <output name="output-temp" id="output-temp" for="input-temp input-unit output-unit">68 F</output>
+      </fieldset>
     </form>
-
-    <section>
-      <h2>Ejemplos de temperaturas</h2>
-
-      <table>
-        <tr>
-          <th>Situación</th>
-          <th>Celsius</th>
-          <th>Fahrenheit</th>
-          <th>Kelvin</th>
-        </tr>
-        <tr>
-          <td>Congelación del agua</td>
-          <td>0 °C</td>
-          <td>32 °F</td>
-          <td>273.15 K</td>
-        </tr>
-        <tr>
-          <td>Temperatura ambiente</td>
-          <td>20 °C</td>
-          <td>68 °F</td>
-          <td>293.15 K</td>
-        </tr>
-        <tr>
-          <td>Cuerpo humano</td>
-          <td>37 °C</td>
-          <td>98.6 °F</td>
-          <td>310.15 K</td>
-        </tr>
-        <tr>
-          <td>Ebullición del agua</td>
-          <td>100 °C</td>
-          <td>212 °F</td>
-          <td>373.15 K</td>
-        </tr>
-      </table>
-    </section>
-
     <script src="./JS/converter.js"></script>
     <script>
       if('serviceWorker' in navigator) {
