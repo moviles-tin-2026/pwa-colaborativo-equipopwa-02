@@ -1,36 +1,44 @@
 /* ==========================================================================
-   1. VARIABLES DE DISEÑO PREMIUM
+   1. VARIABLES DE ESTILO Y ATMÓSFERA
    ========================================================================== */
 :root {
-  --bg-main: #070a13;
-  --surface-card: #0f1626;
-  --surface-input: #172033; /* Fondo oscuro sólido anti-errores del navegador */
-  --border-subtle: rgba(255, 255, 255, 0.08);
-  --border-hover: rgba(0, 240, 255, 0.3);
+  /* Fondos con Profundidad */
+  --bg-main: #040712;           /* Fondo del espacio ultra oscuro */
+  --card-glass: rgba(15, 22, 38, 0.75); /* Cristal oscuro para el convertidor */
+  --surface-input: #172033;     /* Bloqueo sólido para inputs (anti-errores) */
   
+  /* Bordes y Luces de Precisión */
+  --border-subtle: rgba(255, 255, 255, 0.07);
+  --border-hover: rgba(0, 240, 255, 0.35);
+  --card-top-glow: linear-gradient(90deg, rgba(0, 240, 255, 0.25), rgba(139, 92, 246, 0.25));
+  
+  /* Textos y Acentos */
   --text-main: #f8fafc;
   --text-muted: #64748b;
   --accent-cyan: #00f0ff;
-  
-  /* Gradiente premium para el resultado metálico/cristal */
   --result-gradient: linear-gradient(135deg, #ffffff 30%, #a5f3fc 70%, #c084fc 100%);
+  
   --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
-/* Reset Global de Precisión */
+/* Reset Global */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
+/* ==========================================================================
+   2. EL FONDO DE LA PÁGINA (AMBIENTE GALÁCTICO REFINADO)
+   ========================================================================== */
 body {
   font-family: var(--font-sans);
   background-color: var(--bg-main);
-  /* Luces ambientales tenues de fondo */
+  /* Degradados radiales cruzados que simulan nubes de luz estelar profunda */
   background-image: 
-    radial-gradient(circle at 15% 15%, rgba(139, 92, 246, 0.05) 0%, transparent 40%),
-    radial-gradient(circle at 85% 85%, rgba(0, 240, 255, 0.04) 0%, transparent 40%);
+    radial-gradient(at 0% 0%, rgba(112, 0, 255, 0.12) 0px, transparent 45%),
+    radial-gradient(at 100% 100%, rgba(0, 240, 255, 0.08) 0px, transparent 45%),
+    radial-gradient(circle at 50% 50%, #060b18 0%, #03060f 100%);
   color: var(--text-main);
   min-height: 100vh;
   display: grid;
@@ -40,47 +48,66 @@ body {
 }
 
 /* ==========================================================================
-   2. EL CONTENEDOR PRINCIPAL (TU FORMULARIO)
+   3. LA TARJETA DONDE SE CONVIERTE (#CONVERTER - EFECTO VIDRIO)
    ========================================================================== */
 #converter {
   width: 100%;
   max-width: 380px;
   display: flex;
   flex-direction: column;
-  gap: 22px; /* Separación base entre bloques */
-  padding: 36px 28px;
-  background-color: var(--surface-card);
+  gap: 22px;
+  padding: 40px 30px;
+  
+  /* Efecto Glassmorphism (Cristal translúcido que deja ver el fondo galáctico) */
+  background-color: var(--card-glass);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  
   border: 1px solid var(--border-subtle);
-  border-radius: 20px;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  border-radius: 24px;
+  position: relative;
+  overflow: hidden;
+  
+  /* Sombras multinivel para dar volumen tridimensional */
+  box-shadow: 
+    inset 0 1px 1px rgba(255, 255, 255, 0.05),
+    0 20px 40px -15px rgba(0, 0, 0, 0.7);
+}
+
+/* Línea láser brillante en el borde superior de la tarjeta */
+#converter::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--card-top-glow);
 }
 
 /* ==========================================================================
-   3. ESTILIZACIÓN DE ETIQUETAS (LABELS)
+   4. ETIQUETAS (LABELS)
    ========================================================================== */
 #converter label {
   font-size: 0.75rem;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
   color: var(--text-muted);
   text-align: left;
   padding-left: 2px;
-  
-  /* TRUCO VISUAL: Acerca la etiqueta al input que tiene abajo, 
-     neutralizando parte del 'gap' general del formulario */
-  margin-bottom: -14px; 
+  margin-bottom: -14px; /* Truco de acople para HTML plano */
 }
 
 /* ==========================================================================
-   4. CONTROL DE ENTRADAS BLINDADO (INPUT Y SELECTS)
+   5. DISEÑO SEGURO PARA INPUTS Y SELECTS (PROTEGIDOS)
    ========================================================================== */
 
-/* Campo de Texto/Número (#input-temp) */
+/* Campo de entrada de temperatura */
 #converter input[type="text"] {
   -webkit-appearance: none;
   -moz-appearance: none;
-  appearance: none; /* Elimina cajas blancas de fábrica */
+  appearance: none; /* Bloquea el cuadro blanco del sistema */
   
   width: 100%;
   padding: 14px;
@@ -89,11 +116,12 @@ body {
   text-align: center;
   
   color: #ffffff !important;
-  background-color: var(--surface-input) !important;
+  background-color: var(--surface-input) !important; /* Base oscura garantizada */
   border: 1px solid var(--border-subtle) !important;
-  border-radius: 12px;
+  border-radius: 14px;
   outline: none;
-  transition: all 0.2s ease-in-out;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4); /* Pequeño relieve hundido */
 }
 
 #converter input[type="text"]:hover {
@@ -102,32 +130,34 @@ body {
 
 #converter input[type="text"]:focus {
   border-color: var(--accent-cyan) !important;
-  background-color: #1a243a !important;
-  box-shadow: 0 0 15px rgba(0, 240, 255, 0.15);
+  background-color: #1c273d !important;
+  box-shadow: 
+    inset 0 2px 4px rgba(0, 0, 0, 0.4),
+    0 0 20px rgba(0, 240, 255, 0.1);
 }
 
-/* Selectores Desplegables (#input-unit y #output-unit) */
+/* Selectores "De" y "A" */
 #converter select {
   -webkit-appearance: none;
   -moz-appearance: none;
-  appearance: none; /* Elimina las flechas nativas feas de Windows/Chrome */
+  appearance: none; /* Quita las flechas nativas feas */
   
   width: 100%;
-  padding: 14px 40px 14px 14px; /* Espacio extra a la derecha para el ícono */
+  padding: 14px 40px 14px 14px;
   font-size: 0.95rem;
   font-weight: 500;
   text-align: center;
-  text-align-last: center; /* Centra el texto de la opción seleccionada */
+  text-align-last: center;
   
   color: var(--text-main) !important;
   background-color: var(--surface-input) !important;
   border: 1px solid var(--border-subtle) !important;
-  border-radius: 12px;
+  border-radius: 14px;
   cursor: pointer;
   outline: none;
-  transition: all 0.2s ease-in-out;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   
-  /* Añade un Chevron (flecha) minimalista y moderno mediante SVG en código */
+  /* Icono de flecha minimalista incrustado */
   background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2364748b'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E") !important;
   background-repeat: no-repeat !important;
   background-position: right 16px center !important;
@@ -142,35 +172,37 @@ body {
   border-color: var(--accent-cyan) !important;
 }
 
-/* Fondo oscuro para las opciones cuando el menú se despliegue */
 #converter select option {
-  background-color: var(--surface-card);
+  background-color: #0f1626; /* Evita que las opciones salgan blancas */
   color: var(--text-main);
 }
 
 /* ==========================================================================
-   5. EL ELEMENTO DE RESULTADO FINAL (OUTPUT)
+   6. CAJA DE RESULTADO (<OUTPUT>)
    ========================================================================== */
 #output-temp {
-  margin-top: 10px;
+  margin-top: 12px;
   width: 100%;
-  padding: 24px 16px;
+  padding: 26px 16px;
   
-  /* Se le da forma de contenedor bento-box elegante */
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 16px;
-  display: block; /* Obliga al elemento output a actuar como bloque contenedor */
+  /* Contenedor interno tipo bento-box con micro-degradado */
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 18px;
+  display: block;
   text-align: center;
   
-  /* Estilización de la tipografía del resultado héroe */
-  font-size: 3.2rem;
-  font-weight: 700;
-  line-height: 1.1;
-  letter-spacing: -0.03em;
+  /* Tipografía Masiva e Impactante */
+  font-size: 3.4rem;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.04em;
   
-  /* Efecto cromático metálico sobre el texto */
+  /* Color del resultado con degradado cristalino */
   background: var(--result-gradient);
-  background-clip: text;
+    background-clip: text;
   -webkit-text-fill-color: transparent;
+  
+  /* Halo de luz posterior súper suave */
+  box-shadow: 0 10px 30px -10px rgba(0, 240, 255, 0.15);
 }
